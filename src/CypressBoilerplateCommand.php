@@ -80,6 +80,6 @@ EOT
     protected function frontend_path($path)
     {
         $frontendPath = 'resources' . __DIR__ . 'frontend' . __DIR__ . $this->argument('frontend');
-        return base_path($frontendPath + __DIR__ + $path);
+        return base_path($frontendPath . __DIR__ . $path);
     }
 }
