@@ -13,12 +13,15 @@ class CypressBoilerplateCommand extends Command
 
     protected $files;
 
+    protected $frontendPath;
 
     public function __construct(Filesystem $files)
     {
         parent::__construct();
 
         $this->files = $files;
+
+        $this->frontendPath = 'resources' . __DIR__ . 'frontend' . __DIR__ . $this->argument('frontend');
     }
 
     public function handle()
@@ -79,7 +82,6 @@ EOT
 
     protected function frontend_path($path)
     {
-        $frontendPath = 'resources' + __DIR__ + 'frontend' + __DIR__ + $this->argument('frontend');
-        return base_path($frontendPath + __DIR__ + $path);
+        return base_path($this->frontendPath + __DIR__ + $path);
     }
 }
