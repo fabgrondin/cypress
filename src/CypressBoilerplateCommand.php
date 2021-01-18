@@ -7,22 +7,26 @@ use Illuminate\Filesystem\Filesystem;
 
 class CypressBoilerplateCommand extends Command
 {
-    protected $signature = 'cypress:boilerplate';
+    protected $signature = 'cypress:boilerplate {frontend}';
 
     protected $description = 'Generate useful Cypress boilerplate.';
 
     protected $files;
+
+    protected $frontendPath;
 
     public function __construct(Filesystem $files)
     {
         parent::__construct();
 
         $this->files = $files;
+
+        $this->frontendPath = 'resources' + __DIR__ + 'frontend' + __DIR__ + $this->argument('frontend');
     }
 
     public function handle()
     {
-        if ($this->files->exists(base_path('cypress'))) {
+        if ($this->files->exists(frontend_path('cypress'))) {
             $this->copyStubs();
 
             return;
@@ -33,8 +37,8 @@ class CypressBoilerplateCommand extends Command
 
     protected function copyStubs()
     {
-        $this->files->copyDirectory(__DIR__.'/stubs/support', base_path('cypress/support'));
-        $this->files->copyDirectory(__DIR__.'/stubs/plugins', base_path('cypress/plugins'));
+        $this->files->copyDirectory(__DIR__ . '/stubs/support', frontend_path('cypress/support'));
+        $this->files->copyDirectory(__DIR__ . '/stubs/plugins', frontend_path('cypress/plugins'));
 
         $this->lineBreak();
 
@@ -44,7 +48,7 @@ class CypressBoilerplateCommand extends Command
         $this->status('Created', 'cypress/support/laravel-commands.js');
         $this->status('Created', 'cypress/support/assertions.js');
 
-        if (! $this->files->exists($path = base_path('.env.cypress'))) {
+        if (!$this->files->exists($path = base_path('.env.cypress'))) {
             $this->files->copy(base_path('.env'), $path);
 
             $this->status('Created', '.env.cypress');
@@ -74,5 +78,10 @@ class CypressBoilerplateCommand extends Command
 
 EOT
         );
+    }
+
+    protected function frontend_path($path)
+    {
+        return base_path($this->frontendPath + __DIR__ + $path);
     }
 }
