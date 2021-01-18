@@ -23,7 +23,7 @@ class CypressBoilerplateCommand extends Command
 
     public function handle()
     {
-        if ($this->files->exists(frontend_path('cypress'))) {
+        if ($this->files->exists($this->frontend_path('cypress'))) {
             $this->copyStubs();
 
             return;
@@ -34,8 +34,8 @@ class CypressBoilerplateCommand extends Command
 
     protected function copyStubs()
     {
-        $this->files->copyDirectory(__DIR__ . '/stubs/support', frontend_path('cypress/support'));
-        $this->files->copyDirectory(__DIR__ . '/stubs/plugins', frontend_path('cypress/plugins'));
+        $this->files->copyDirectory(__DIR__ . '/stubs/support', $this->frontend_path('cypress/support'));
+        $this->files->copyDirectory(__DIR__ . '/stubs/plugins', $this->frontend_path('cypress/plugins'));
 
         $this->lineBreak();
 
